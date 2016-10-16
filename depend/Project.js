@@ -7,7 +7,7 @@ var Path=[];
 var target=1;
 var pointer=null;
 var near=[];
-var target=100;
+
 
 
 var x;
