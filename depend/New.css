@@ -1,0 +1,193 @@
+
+@charset "UTF-8";
+/* CSS Document */
+
+
+.Main {
+	background-image:url(Garfield.jpg);
+	width:100px;
+	height:100px;
+}
+.node1:after{
+	font-size:40px;
+	position: relative;
+	top: 20%;
+	margin-left:0px;
+
+}
+.node2:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:40px;
+	color:red;
+}
+.node3:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node4:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node5:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node6:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node7:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node8:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node9:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+}
+.node10:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	color:red;
+	margin-left:40px;
+
+}
+.node11:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:30px;
+	color:red;
+
+}
+.node12:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:30px;
+	color:red;
+
+}
+.node13:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:30px;
+	color:red;
+
+}
+.node14:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:30px;
+	color:red;
+
+}
+.node15:after{
+	font-size:40px;
+	position: relative;
+	top: 30%;
+	margin-left:30px;
+	color:red;
+
+}
+
+.node64:after{
+	font-size: 40px;
+	position: relative;
+	top: 30%;
+	margin-left: 0px;
+
+}
+.node1{
+	background-color:green;
+}
+.node64{
+	background-color:red;
+}
+.node1 {
+	background-position:-60px 0;
+
+
+}
+.node2 {
+	background-position:-60px -100px;
+
+
+}
+.node3 {
+	background-position:-60px -200px
+}
+
+.node4 {
+	background-position:-60px -300px
+}
+.node5 {
+	background-position:-160px 0px
+}
+
+.node6 {
+	background-position:-160px -100px
+}
+
+.node7 {
+	background-position:-160px -200px
+}
+.node8 {
+	background-position:-160px -300px
+}
+.node9 {
+	background-position:-260px 0px
+}
+.node10 {
+	background-position:-260px -100px
+}
+.node11 {
+	background-position:-260px -200px
+}
+.node12 {
+	background-position:-260px -300px
+}
+
+.node13 {
+	background-position:-360px 0px
+}
+.node14 {
+	background-position:-360px -100px
+}
+.node15 {
+	background-position:-360px -205px
+}
+
+#output {
+	font-size:36px
+}
+
