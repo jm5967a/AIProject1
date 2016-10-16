@@ -4,7 +4,7 @@
 
 
 .Main {
-	background-image:url(Garfield.jpg);
+
 	width:100px;
 	height:100px;
 }
@@ -133,60 +133,6 @@
 .node64{
 	background-color:red;
 }
-.node1 {
-	background-position:-60px 0;
-
-
-}
-.node2 {
-	background-position:-60px -100px;
-
-
-}
-.node3 {
-	background-position:-60px -200px
-}
-
-.node4 {
-	background-position:-60px -300px
-}
-.node5 {
-	background-position:-160px 0px
-}
-
-.node6 {
-	background-position:-160px -100px
-}
-
-.node7 {
-	background-position:-160px -200px
-}
-.node8 {
-	background-position:-160px -300px
-}
-.node9 {
-	background-position:-260px 0px
-}
-.node10 {
-	background-position:-260px -100px
-}
-.node11 {
-	background-position:-260px -200px
-}
-.node12 {
-	background-position:-260px -300px
-}
-
-.node13 {
-	background-position:-360px 0px
-}
-.node14 {
-	background-position:-360px -100px
-}
-.node15 {
-	background-position:-360px -205px
-}
-
 #output {
 	font-size:36px
 }
