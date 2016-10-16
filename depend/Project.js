@@ -4,12 +4,12 @@
 var Openlist=[];
 var Closedlist=[];
 var Path=[];
-var target=30;
+var target=1;
 var pointer=null;
+var near=[];
+var target=100;
 
-var gray="16";
-var count=0;
-var time=0;
+
 var x;
 var over=false;
 function main(){
@@ -22,20 +22,22 @@ function main(){
         input.style.position = "relative";
         input.style.border = "solid";
         input.style.width = "100px";
-        input.onload = heuristic;
+
         input.onclick=neighbors;
 
         input.style.height = "100px";
         input.style.borderWidth = "5px";
         input.id = counts.toString();
-if (count==1){
-    var tt = `<div id="heuristic${counts}"> ${heuristic(counts)}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}"> 1</div>`
+        var k=distance(64,counts);
+        var l=distance(1,counts);
+if (count==64){
+    var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">${k} </div>`
 }
-else if (count==64){
-    var tt = `<div id="heuristic${counts}"> ${heuristic(counts)}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> 1</div>`
+else if (count==1){
+    var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> ${k}</div>`
 }
 else{
-        var tt = `<div id="heuristic${counts}"> ${heuristic(counts)}</div><br><br><br><div id="Cost${counts}"> 1</div>`}
+        var tt = `<div id="heuristic${counts}"> ${l}</div><br><br><br><div id="Cost${counts}"> ${k}</div>`}
         input.innerHTML = tt;
 
         var c = i / 8;
@@ -47,20 +49,72 @@ else{
         count +=1;
     }
 
+    function distance(start,id){
 
+        var y=Math.floor((parseInt(id)/8)); //calculates what column the input is
+
+        var x=y*8+1; //what top id in that row is
+
+
+        var z=(parseInt(id)-(y*8+1)); //calculates what row
+        if (z==-1){
+            z=7;
+        }
+
+        var begc=Math.floor(parseInt(start)/8); //calculates what column the input is
+
+        var begrid=begc*8+1; //what top id in that row is
+
+
+        var begr=(parseInt(start)-(begc*8+1)); //calculates what row
+        if (begr==-1){
+            begr=7;
+        }
+        var yz=Math.round((parseInt(id)/8)); //calculates what column the input is
+        var movec=yz-begc;
+        var mover=z-begr;
+
+        var direcC;
+        var direcR;
+
+        var h=((movec-mover)*8+1); //calculates how many diagonal moves you can make to get closest to the node (outs closest id you can get to)
+        mover=Math.abs(mover);
+        var dist;
+        movec=Math.abs(movec);
+        if (mover>movec){
+            var diag=movec;
+            dist=mover-diag*1;
+        }
+        else if (movec>mover){
+            var diag=mover;
+            dist=movec-diag*1;
+        }
+        else {
+            var diag=mover;
+            dist=movec-diag*1;
+
+        }
+        var out=dist+diag;
+        return out;
+    }
 
     function astar() {
 
-        var t=[-1,1,8,-8,9,-9,7,-7];
         var value;
         var min=null;
 
-        for(var i=0;i<=t.length;i++){
+        for(var i=0;i<=near.length;i++){
 
         try {
-            possible=parseInt(pointer)+parseInt(t[i]);
+
+            if (Closedlist.includes(near[i])==false){
+
+            possible=(near[i]);
+
+
 
             heur=document.getElementById("heuristic"+possible).innerHTML;
+
 
             cost=document.getElementById("Cost"+possible).innerHTML;
 
@@ -69,39 +123,33 @@ else{
             var test=parseInt(cost)+parseInt(heur);
 
 
-            if ((test<min || min==null)&& test !=pointer){
-                min=test;
+
+            if ((min==null || test<min)){
+
                 value=possible;
+                min=test;
             }
+            else if (test==min){
+              var calc=value-target;
+                var calc2=possible-target;
+                if (Math.abs(calc)<Math.abs(calc2)){
+                    calc=null;
+                }
+                else if(Math.abs(calc)>Math.abs(calc2)){
+                    value=possible;
+                    min=test;
+                }
+
+                }
 
 
-
-        }
+        }}
 
     catch(err) {
         var y=0;
     }}
+
     document.getElementById("heuristic"+(value)).style.backgroundColor="green";
-    }
-    function heuristic(targ){
-        var id=targ;
-        var y=Math.floor(parseInt(id)/8);
-        var x=y*8+1;
-        var dif=(parseInt(id)-x)+y;
-
-        var z=(parseInt(id)-(y*8+1));
-
-       var h=((y-z)*8+1);
-        var t=0;
-
-        while(h!=1 && h>1){
-            h-=8;
-            t+=1;
-        }
-        var out=t+z;
-        return out;
-
-
     }
 
 function pops(array,array2,r){
@@ -121,6 +169,11 @@ function pops(array,array2,r){
     }}
 
 function neighbors(){
+id=this.id;
+    Closedlist.push(id);
+
+near=[];
+
     pointer=this.id;
     var i=this.id;
     document.getElementById(i.toString()).style.borderColor="blue";
@@ -131,27 +184,32 @@ function neighbors(){
     if (dif==0){
         var t=[1,8,-8,-7,9];
     }
+    else if (dif==-1){
+        var t=[-8,8,-1,-9,7]
+    }
     else{
     var t=[-1,1,8,-8,9,-9,7,-7];}
-var children=[];
-children.push(parseInt(this.id)+parseInt(t));
-    alert(children.toString());
+
+
+
+
     for (change=0;change<t.length;change++){
         var z=parseInt(i)+(t[change]);
-        if (document.getElementById(z.toString()).style.borderColor=="blue"){
-            w=1;
-        }
-        else{
-            if (z.toString()=="64"){
-                return;
-            }
-            else {
+
+
+
+
                 try{
+
                     document.getElementById(z.toString()).style.cursor="pointer";
                     document.getElementById(z.toString()).style.borderColor="red";
+                    Openlist.push(z.toString());
+
+                    near.push(z.toString());
                 }
                 catch(err) {
                     w=1;
-                }}}}
+                }}
+
             astar()
 }}
