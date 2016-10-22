@@ -4,15 +4,15 @@
 var Openlist=[];
 var Closedlist=[];
 var Path=[];
-var target=1;
+var target=0;
 var pointer=null;
 var near=[];
-
+var blocked=[];
 
 
 var x;
 var over=false;
-function main(){
+function init(){
     var count=1;
     var input;
     document.getElementById("Main").innerHTML = "";
@@ -22,23 +22,55 @@ function main(){
         input.style.position = "relative";
         input.style.border = "solid";
         input.style.width = "100px";
-
-        input.onclick=neighbors;
-
         input.style.height = "100px";
         input.style.borderWidth = "5px";
         input.id = counts.toString();
-        var k=distance(64,counts);
-        var l=distance(1,counts);
-if (count==64){
-    var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">${k} </div>`
-}
-else if (count==1){
-    var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> ${k}</div>`
-}
-else{
-        var tt = `<div id="heuristic${counts}"> ${l}</div><br><br><br><div id="Cost${counts}"> ${k}</div>`}
-        input.innerHTML = tt;
+        input.onclick=block;
+        var c = i / 8;
+        c = Math.floor(c);
+        input.style.left = 110 * c + "px";
+        input.style.bottom = 880 * c + "px";
+        document.getElementById("Main").appendChild(input);
+        count +=1;
+    }
+    function block(){
+        this.style.backgroundImage="url('brick.jpg')"
+        this.onclick=remove;
+        blocked.push(this.id)
+    }
+    function remove(){
+        this.style.backgroundImage=""
+        var index=blocked.indexOf(this.id.toString());
+        blocked.splice(index,1);
+        this.onclick=block;
+
+
+    }}
+
+function main(){
+    var count=1;
+    var input;
+    for (var i=0,counts=1;i<104;i++,counts++) {
+        input = document.getElementById(counts.toString());
+        if (blocked.includes(counts.toString())== true){
+            input.style.backgroundImage="url('brick.jpg')"
+            input.onclick="";
+        }
+        else {
+            var k = 1
+            var l = distance(1, counts);
+            if (count == 64) {
+                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">${k} </div>`
+            }
+            else if (count == 1) {
+                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> ${k}</div>`
+            }
+            else {
+                var tt = `<div id="heuristic${counts}"> ${l}</div><br><br><br><div id="Cost${counts}"> ${k}</div>`
+            }
+            input.innerHTML = tt;
+            input.onclick=neighbors;
+        }
 
         var c = i / 8;
         c = Math.floor(c);
@@ -103,24 +135,15 @@ else{
         var value;
         var min=null;
 
-        for(var i=0;i<=near.length;i++){
+        for(var i=0;i<=Openlist.length;i++){
 
         try {
-
-            if (Closedlist.includes(near[i])==false){
-
-            possible=(near[i]);
+var t=Openlist[i];
+            if (Closedlist.includes(t.id.toString())==false){
 
 
-
-            heur=document.getElementById("heuristic"+possible).innerHTML;
-
-
-            cost=document.getElementById("Cost"+possible).innerHTML;
-
-
-
-            var test=parseInt(cost)+parseInt(heur);
+            var test=t.f;
+                var possible=t.id;
 
 
 
@@ -192,10 +215,17 @@ near=[];
 
 
 
-
+var quit=0;
     for (change=0;change<t.length;change++){
         var z=parseInt(i)+(t[change]);
+        if (z.toString()==target.toString()) {
+            alert("congrats")
+            quit=1;
 
+        }
+        else{
+
+        if (blocked.includes(z.toString())==false){
 
 
 
@@ -203,13 +233,28 @@ near=[];
 
                     document.getElementById(z.toString()).style.cursor="pointer";
                     document.getElementById(z.toString()).style.borderColor="red";
-                    Openlist.push(z.toString());
+                    var y=document.getElementById(z.toString());
+
+
+                    var heur=document.getElementById(("heuristic"+z.toString()));
+                    heur=heur.innerHTML;
+
+                    var cost=document.getElementById(("Cost"+z.toString()));
+                    cost=cost.innerHTML;
+
+                    var tot=parseInt(heur)+parseInt(cost);
+                    var add = new Object();
+                    add.f = tot;
+                    add.id=z;
+
+
+                    Openlist.push(add);
 
                     near.push(z.toString());
                 }
                 catch(err) {
                     w=1;
-                }}
-
-            astar()
+                }}}}
+if (quit==0){
+            astar()}
 }}
