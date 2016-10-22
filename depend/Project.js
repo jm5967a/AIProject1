@@ -9,6 +9,9 @@ var pointer=null;
 var near=[];
 var blocked=[];
 var starts;
+var parent=null;
+var costc=0;
+var parentfound=[];
 
 
 var x;
@@ -87,13 +90,13 @@ function main(){
             var k = 1
             var l = distance(parseInt(target), counts);
             if (count == starts) {
-                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">${k} </div>`
+                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">0</div>`
             }
             else if (count == target) {
-                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> ${k}</div>`
+                var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> </div>`
             }
             else {
-                var tt = `<div id="heuristic${counts}"> ${l}</div><br><br><br><div id="Cost${counts}"> ${k}</div>`
+                var tt = `<div id="heuristic${counts}"> ${l}</div><br><br><br><div id="Cost${counts}"> </div>`
             }
             input.innerHTML = tt;
             input.onclick=neighbors;
@@ -133,6 +136,7 @@ function main(){
         var movec=yz-begc;
         var mover=z-begr;
 
+
         var direcC;
         var direcR;
 
@@ -154,18 +158,19 @@ function main(){
 
         }
         var out=dist+diag;
-        return out;
+        return (movec+mover);
     }
 
     function astar() {
 
         var value;
         var min=null;
+        var inp;
 
         for(var i=0;i<=Openlist.length;i++){
 
         try {
-var t=Openlist[i];
+            var t=Openlist[i];
             if (Closedlist.includes(t.id.toString())==false){
 
 
@@ -178,6 +183,7 @@ var t=Openlist[i];
 
                 value=possible;
                 min=test;
+                inp=i;
             }
             else if (test==min){
               var calc=value-target;
@@ -188,6 +194,7 @@ var t=Openlist[i];
                 else if(Math.abs(calc)>Math.abs(calc2)){
                     value=possible;
                     min=test;
+                    inp=i;
                 }
 
                 }
@@ -199,7 +206,15 @@ var t=Openlist[i];
         var y=0;
     }}
 
+
+       if (parent!=null){
+          var k= Openlist[inp];
+           k.parent=parent;
+
+       }
     document.getElementById("heuristic"+(value)).style.backgroundColor="green";
+
+        parent=Closedlist[(Closedlist.length-1)];
     }
 
 function pops(array,array2,r){
@@ -241,7 +256,6 @@ near=[];
     var t=[-1,1,8,-8,9,-9,7,-7];}
 
 
-
 var quit=0;
     for (change=0;change<t.length;change++){
         var z=parseInt(i)+(t[change]);
@@ -253,6 +267,26 @@ var quit=0;
         else{
 
         if (blocked.includes(z.toString())==false){
+            if (parent==null){
+           try
+                {
+                    document.getElementById("Cost" + z.toString()).innerHTML = 1;
+                }
+                catch(err){
+                    ;
+                }
+            }
+           else{
+
+            var out=document.getElementById("Cost" + pointer.toString()).innerHTML;
+try{
+if(document.getElementById("Cost"+z.toString()).innerHTML==" ") {
+    var send = parseInt(out)+1;
+    document.getElementById("Cost" + z.toString()).innerHTML = send
+}}
+                catch (err){;}
+
+           }
 
 
 
@@ -273,10 +307,8 @@ var quit=0;
                     var add = new Object();
                     add.f = tot;
                     add.id=z;
-
-
+                    add.parent;
                     Openlist.push(add);
-
                     near.push(z.toString());
                 }
                 catch(err) {
