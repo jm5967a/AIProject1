@@ -4,15 +4,18 @@
 var Openlist=[];
 var Closedlist=[];
 var Path=[];
-var target=0;
+var target;
 var pointer=null;
 var near=[];
 var blocked=[];
+var starts;
 
 
 var x;
 var over=false;
 function init(){
+    var start=null;
+    var end=null;
     var count=1;
     var input;
     document.getElementById("Main").innerHTML = "";
@@ -25,7 +28,7 @@ function init(){
         input.style.height = "100px";
         input.style.borderWidth = "5px";
         input.id = counts.toString();
-        input.onclick=block;
+        input.onclick=get;
         var c = i / 8;
         c = Math.floor(c);
         input.style.left = 110 * c + "px";
@@ -45,7 +48,30 @@ function init(){
         this.onclick=block;
 
 
-    }}
+    }
+
+    function get(){
+       if (start==null){
+        start=this;
+        start.style.backgroundColor="green";
+        var tt='<div style="font-size: 40px;color:white"> Start </div>'
+        start.innerHTML=tt;
+       starts=this.id}
+
+        else if (start!=null && end==null) {
+           end=this;
+           end.style.backgroundColor="red";
+           var tt='<div style="font-size: 40px;color:white"> Goal </div>'
+           end.innerHTML=tt;
+           target=this.id;
+        for (var i=0,counts=1;i<104;i++,counts++) {
+            input = document.getElementById(counts.toString());
+            input.onclick=block;}
+        }
+
+
+       }
+    }
 
 function main(){
     var count=1;
@@ -56,13 +82,14 @@ function main(){
             input.style.backgroundImage="url('brick.jpg')"
             input.onclick="";
         }
+
         else {
             var k = 1
-            var l = distance(1, counts);
-            if (count == 64) {
+            var l = distance(parseInt(target), counts);
+            if (count == starts) {
                 var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Start </div><br><div id="Cost${counts}">${k} </div>`
             }
-            else if (count == 1) {
+            else if (count == target) {
                 var tt = `<div id="heuristic${counts}"> ${l}</div><div style="font-size: 40px;color:white"> Goal </div><br><div id="Cost${counts}"> ${k}</div>`
             }
             else {
