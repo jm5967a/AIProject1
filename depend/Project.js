@@ -12,6 +12,7 @@ var starts;
 var parent=null;
 var costc=0;
 var parentfound=[];
+var quit=0;
 
 
 var x;
@@ -212,9 +213,42 @@ function main(){
            k.parent=parent;
 
        }
-    document.getElementById("heuristic"+(value)).style.backgroundColor="green";
+       if(quit==0) {
+           document.getElementById("heuristic" + (value)).style.backgroundColor = "green";
+       }
+        var mincost=null
+        minid=null;
+        for (var tt=0;tt<near.length;tt++){
 
-        parent=Closedlist[(Closedlist.length-1)];
+            var tes=near[tt];
+            if(pointer==starts){
+                parent=null;
+            }
+            else if(mincost==null || parseInt(tes.cost)<parseInt(mincost)){
+                mincost=tes.cost
+                minid=tes.id;
+                parent=minid;
+            }
+        }
+
+            var write=document.getElementById(id.toString()).innerHTML;
+
+        write=write+`<div id="parent${pointer}"style="visibility: hidden">${parent}</div>`;
+
+document.getElementById(pointer.toString()).innerHTML=write;
+
+        if(quit==1){
+            document.getElementById(pointer.toString()).style.backgroundColor="green";
+            var x=document.getElementById("parent"+pointer.toString()).innerHTML;
+            alert(x.toString().length)
+
+            while(x.toString()!="null"){
+
+                document.getElementById(x.toString()).style.backgroundColor="green";
+                x=document.getElementById("parent"+x.toString()).innerHTML;}
+
+        }
+
     }
 
 function pops(array,array2,r){
@@ -256,18 +290,19 @@ near=[];
     var t=[-1,1,8,-8,9,-9,7,-7];}
 
 
-var quit=0;
+
     for (change=0;change<t.length;change++){
         var z=parseInt(i)+(t[change]);
+
         if (z.toString()==target.toString()) {
-            alert("congrats")
+            alert("congrats");
             quit=1;
 
         }
         else{
 
         if (blocked.includes(z.toString())==false){
-            if (parent==null){
+            if (Closedlist[Closedlist.length-1]==null){
            try
                 {
                     document.getElementById("Cost" + z.toString()).innerHTML = 1;
@@ -308,12 +343,13 @@ if(document.getElementById("Cost"+z.toString()).innerHTML==" ") {
                     add.f = tot;
                     add.id=z;
                     add.parent;
+                    add.cost=cost;
                     Openlist.push(add);
-                    near.push(z.toString());
+                    near.push(add);
                 }
                 catch(err) {
                     w=1;
                 }}}}
-if (quit==0){
-            astar()}
+
+            astar()
 }}
