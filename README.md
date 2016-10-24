@@ -4,4 +4,4 @@ A* pathfinding implementation using WebStorm I used Javascript, html, and css to
 
 Here is a snippet that just includes my A* algorithm:
 
-![alt tag](AIProject1/Screen Shot 2016-10-24 at 6.55.06 PM.png) 
+![myimage-alt-tag](AIProject1/Screen Shot 2016-10-24 at 6.55.06 PM.png)  
