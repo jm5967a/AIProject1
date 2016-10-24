@@ -42,6 +42,7 @@ function init(){
     }
     function block(){
         this.style.backgroundImage="url('brick.jpg')"
+
         this.onclick=remove;
         blocked.push(this.id)
     }
@@ -55,27 +56,94 @@ function init(){
     }
 
     function get(){
-       if (start==null){
-        start=this;
-        start.style.backgroundColor="green";
-        var tt='<div style="font-size: 40px;color:white"> Start </div>'
-        start.innerHTML=tt;
-       starts=this.id}
+        if (start==null){
+            start=this;
+            start.style.backgroundColor="green";
+            var tt='<div style="font-size: 40px;color:white"> Start </div>'
+            start.innerHTML=tt;
+            starts=this.id}
 
         else if (start!=null && end==null) {
-           end=this;
-           end.style.backgroundColor="red";
-           var tt='<div style="font-size: 40px;color:white"> Goal </div>'
-           end.innerHTML=tt;
-           target=this.id;
-        for (var i=0,counts=1;i<104;i++,counts++) {
-            input = document.getElementById(counts.toString());
-            input.onclick=block;}
+            end=this;
+            end.style.backgroundColor="red";
+            var tt='<div style="font-size: 40px;color:white"> Goal </div>'
+            end.innerHTML=tt;
+            target=this.id;
+            for (var i=0,counts=1;i<104;i++,counts++) {
+                input = document.getElementById(counts.toString());
+                input.onclick=block;}
         }
 
 
-       }
     }
+}
+function jump(){
+    var obstacletoright;
+    var parentnode;
+    var node;
+    var tester=61;
+    var vtest=tester;
+    var y=vtest;
+    var x=tester;
+    var down=[1,9,17,25,33,41,49,57,65,73,81,89,97];
+    var up=[0,8,16,24,32,40,48,56,64,72,80,88,96];
+    var left=[-7,-6,-5,-4,-3,-2,-1,0];
+    var altright=[97,98,99,100,101,102,103,104]
+    var altleft=[1,2,3,4,5,6,7,8];
+    var right=[105,106,107,108,109,110,111,112];
+    var diagright=[8,16,24,32,40,48,56,64,72,80,88,96,104,105,106,107,108,109,110,111];
+    var diagleft=[-8,-7,-6,-5,-4,-3,-2,-1,0,8,16,24,32,40,44,48,56,64,72,80,88,96];
+    var prev;
+
+    while(true){
+        if((blocked.includes(x.toString())==false) && right.includes(parseInt(x))==false){
+            document.getElementById(x.toString()).style.backgroundColor="green";
+            x=parseInt(x)+8;
+        }
+        else if (blocked.includes(x.toString())==true) {
+            x-=8;
+            while(((diagright.includes(x)==false || down.includes(prev)==false || altright.includes(prev)==false))&& x<=104 && blocked.includes(x.toString())==false){
+                prev=x;
+                document.getElementById(x.toString()).style.backgroundColor="green";
+                x=parseInt(x)+7;
+            }
+            break;
+        }
+        else{
+            break;}
+    }
+
+    x=tester;
+    while (true){
+        if((blocked.includes(x.toString())==false) && left.includes(parseInt(x))==false){
+            document.getElementById(x.toString()).style.backgroundColor="green";
+            x=parseInt(x)-8;
+        }
+        else if (blocked.includes(x.toString())==true) {
+            x+=8;
+            while(((diagleft.includes(x)==false || down.includes(prev)==false || altleft.includes(prev)==false) &&(x>0 && blocked.includes(x.toString())==false))){
+                prev=x;
+                document.getElementById(x.toString()).style.backgroundColor="green";
+                x=parseInt(x)-9;
+            }
+            break;
+        }
+        else{
+            break;}
+    }
+    while((blocked.includes(y.toString())==false) && (down.includes(parseInt(y))==false) || y==tester){
+        document.getElementById(y.toString()).style.backgroundColor="green";
+        y=parseInt(y)+1;
+    }
+
+    y=vtest;
+    while((blocked.includes(y.toString())==false) && (up.includes(parseInt(y))==false) || y==tester){
+        document.getElementById(y.toString()).style.backgroundColor="green";
+        y=parseInt(y)-1;
+    }
+
+}
+
 
 function main(){
     var count=1;
@@ -170,52 +238,52 @@ function main(){
 
         for(var i=0;i<=Openlist.length;i++){
 
-        try {
-            var t=Openlist[i];
-            if (Closedlist.includes(t.id.toString())==false){
+            try {
+                var t=Openlist[i];
+                if (Closedlist.includes(t.id.toString())==false){
 
 
-            var test=t.f;
-                var possible=t.id;
+                    var test=t.f;
+                    var possible=t.id;
 
 
 
-            if ((min==null || test<min)){
+                    if ((min==null || test<min)){
 
-                value=possible;
-                min=test;
-                inp=i;
-            }
-            else if (test==min){
-              var calc=value-target;
-                var calc2=possible-target;
-                if (Math.abs(calc)<Math.abs(calc2)){
-                    calc=null;
-                }
-                else if(Math.abs(calc)>Math.abs(calc2)){
-                    value=possible;
-                    min=test;
-                    inp=i;
-                }
+                        value=possible;
+                        min=test;
+                        inp=i;
+                    }
+                    else if (test==min){
+                        var calc=value-target;
+                        var calc2=possible-target;
+                        if (Math.abs(calc)<Math.abs(calc2)){
+                            calc=null;
+                        }
+                        else if(Math.abs(calc)>Math.abs(calc2)){
+                            value=possible;
+                            min=test;
+                            inp=i;
+                        }
 
-                }
-
-
-        }}
-
-    catch(err) {
-        var y=0;
-    }}
+                    }
 
 
-       if (parent!=null){
-          var k= Openlist[inp];
-           k.parent=parent;
+                }}
 
-       }
-       if(quit==0) {
-           document.getElementById("heuristic" + (value)).style.backgroundColor = "green";
-       }
+            catch(err) {
+                var y=0;
+            }}
+
+
+        if (parent!=null){
+            var k= Openlist[inp];
+            k.parent=parent;
+
+        }
+        if(quit==0) {
+            document.getElementById("heuristic" + (value)).style.backgroundColor = "green";
+        }
         var mincost=null
         minid=null;
         for (var tt=0;tt<near.length;tt++){
@@ -231,11 +299,11 @@ function main(){
             }
         }
 
-            var write=document.getElementById(id.toString()).innerHTML;
+        var write=document.getElementById(id.toString()).innerHTML;
 
         write=write+`<div id="parent${pointer}"style="visibility: hidden">${parent}</div>`;
 
-document.getElementById(pointer.toString()).innerHTML=write;
+        document.getElementById(pointer.toString()).innerHTML=write;
 
         if(quit==1){
             document.getElementById(pointer.toString()).style.backgroundColor="green";
@@ -251,105 +319,105 @@ document.getElementById(pointer.toString()).innerHTML=write;
 
     }
 
-function pops(array,array2,r){
-    if (r!=null) {
-        var y=array.indexOf(r)
-        array.splice(y, 1);
-        array2.push(y);
-        return y;
-
-    }
-
-   else if (array.length>0){
-       var y=array[0];
-           array.splice(0, 1);
-        array2.push(y);
-       return y;
-    }}
-
-function neighbors(){
-id=this.id;
-    Closedlist.push(id);
-
-near=[];
-
-    pointer=this.id;
-    var i=this.id;
-    document.getElementById(i.toString()).style.borderColor="blue";
-    var w;
-    var y=Math.floor(parseInt(this.id)/8);
-    var x=y*8+1;
-    var dif=(parseInt(this.id)-x);
-    if (dif==0){
-        var t=[1,8,-8,-7,9];
-    }
-    else if (dif==-1){
-        var t=[-8,8,-1,-9,7]
-    }
-    else{
-    var t=[-1,1,8,-8,9,-9,7,-7];}
-
-
-
-    for (change=0;change<t.length;change++){
-        var z=parseInt(i)+(t[change]);
-
-        if (z.toString()==target.toString()) {
-            alert("congrats");
-            quit=1;
+    function pops(array,array2,r){
+        if (r!=null) {
+            var y=array.indexOf(r)
+            array.splice(y, 1);
+            array2.push(y);
+            return y;
 
         }
+
+        else if (array.length>0){
+            var y=array[0];
+            array.splice(0, 1);
+            array2.push(y);
+            return y;
+        }}
+
+    function neighbors(){
+        id=this.id;
+        Closedlist.push(id);
+
+        near=[];
+
+        pointer=this.id;
+        var i=this.id;
+        document.getElementById(i.toString()).style.borderColor="blue";
+        var w;
+        var y=Math.floor(parseInt(this.id)/8);
+        var x=y*8+1;
+        var dif=(parseInt(this.id)-x);
+        if (dif==0){
+            var t=[1,8,-8,-7,9];
+        }
+        else if (dif==-1){
+            var t=[-8,8,-1,-9,7]
+        }
         else{
+            var t=[-1,1,8,-8,9,-9,7,-7];}
 
-        if (blocked.includes(z.toString())==false){
-            if (Closedlist[Closedlist.length-1]==null){
-           try
-                {
-                    document.getElementById("Cost" + z.toString()).innerHTML = 1;
-                }
-                catch(err){
-                    ;
-                }
+
+
+        for (change=0;change<t.length;change++){
+            var z=parseInt(i)+(t[change]);
+
+            if (z.toString()==target.toString()) {
+                alert("congrats");
+                quit=1;
+
             }
-           else{
+            else{
 
-            var out=document.getElementById("Cost" + pointer.toString()).innerHTML;
-try{
-if(document.getElementById("Cost"+z.toString()).innerHTML==" ") {
-    var send = parseInt(out)+1;
-    document.getElementById("Cost" + z.toString()).innerHTML = send
-}}
-                catch (err){;}
+                if (blocked.includes(z.toString())==false){
+                    if (Closedlist[Closedlist.length-1]==null){
+                        try
+                        {
+                            document.getElementById("Cost" + z.toString()).innerHTML = 1;
+                        }
+                        catch(err){
+                            ;
+                        }
+                    }
+                    else{
 
-           }
+                        var out=document.getElementById("Cost" + pointer.toString()).innerHTML;
+                        try{
+                            if(document.getElementById("Cost"+z.toString()).innerHTML==" ") {
+                                var send = parseInt(out)+1;
+                                document.getElementById("Cost" + z.toString()).innerHTML = send
+                            }}
+                        catch (err){;}
+
+                    }
 
 
 
-                try{
+                    try{
 
-                    document.getElementById(z.toString()).style.cursor="pointer";
-                    document.getElementById(z.toString()).style.borderColor="red";
-                    var y=document.getElementById(z.toString());
+                        document.getElementById(z.toString()).style.cursor="pointer";
+                        document.getElementById(z.toString()).style.borderColor="red";
+                        var y=document.getElementById(z.toString());
 
 
-                    var heur=document.getElementById(("heuristic"+z.toString()));
-                    heur=heur.innerHTML;
+                        var heur=document.getElementById(("heuristic"+z.toString()));
+                        heur=heur.innerHTML;
 
-                    var cost=document.getElementById(("Cost"+z.toString()));
-                    cost=cost.innerHTML;
+                        var cost=document.getElementById(("Cost"+z.toString()));
+                        cost=cost.innerHTML;
 
-                    var tot=parseInt(heur)+parseInt(cost);
-                    var add = new Object();
-                    add.f = tot;
-                    add.id=z;
-                    add.parent;
-                    add.cost=cost;
-                    Openlist.push(add);
-                    near.push(add);
-                }
-                catch(err) {
-                    w=1;
-                }}}}
+                        var tot=parseInt(heur)+parseInt(cost);
+                        var add = new Object();
+                        add.f = tot;
+                        add.id=z;
+                        add.parent;
+                        add.cost=cost;
+                        Openlist.push(add);
+                        near.push(add);
+                    }
+                    catch(err) {
+                        w=1;
+                    }}}}
 
-            astar()
-}}
+        astar()
+    }}
