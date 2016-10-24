@@ -37,7 +37,7 @@ function astar() {
 			}}
 		if (parent!=null){
 			var k= Openlist[inp];
-			k.parent=parent;
+			k.parent=parent; 
 		}
 		if(quit==0) {
 			document.getElementById("heuristic" + (value)).style.backgroundColor = "green";
