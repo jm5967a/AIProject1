@@ -4,5 +4,5 @@ A* pathfinding implementation using WebStorm I used Javascript, html, and css to
 
 Here is a snippet that just includes my A* algorithm:
 
-<img src="https://github.com/jm5967a/AIProject1/blob/master/Screen%20Shot%202016-10-24%20at%206.55.06%20PM.png" width="50%"/>
-<img src="https://github.com/jm5967a/AIProject1/blob/master/Screen%20Shot%202016-10-24%20at%206.55.18%20PM.png" width="50%"/>
+<img src="https://github.com/jm5967a/AIProject1/blob/master/Screen%20Shot%202016-10-24%20at%206.55.06%20PM.png" width="400"/>
+<img src="https://github.com/jm5967a/AIProject1/blob/master/Screen%20Shot%202016-10-24%20at%206.55.18%20PM.png" width="400"/>
